@@ -1,0 +1,30 @@
+##############################################################################
+# STAGE 1: Build the GO executable
+# NOTE: Dynatrace support for a new Go version is typically released a few months after a Go release. Please check
+#       the Dynatrace docs before updating the `GO_VERSION` variable
+#       https://docs.dynatrace.com/docs/ingest-from/technology-support/application-software/go/support/supported-go-versions
+FROM golang:1.23 AS builder
+
+WORKDIR /buildapp
+
+# Instead of copying the whole source tree, first just copy these two files so that the `RUN go mod download`
+# step can be cached by the Docker builder
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Now copy the rest of the source tree
+COPY . .
+
+RUN go build -o /myapp
+
+
+##############################################################################
+# STAGE 2: Copy the GO executable into a minimal image that's able to run Dynatrace
+FROM gcr.io/distroless/base
+
+# Get the compiled executable from Stage 1
+COPY --from=builder /myapp /myapp
+
+EXPOSE 8080
+
+ENTRYPOINT [ "/myapp" ]

@@ -1,0 +1,12 @@
+FROM debian:stable-slim
+
+# COPY source destination
+COPY goserver /bin/goserver
+
+# Specify Port the server will use
+ENV PORT=8080
+
+CMD ["/bin/goserver"]
+
+# docker build . -t goserver:latest
+# docker run -p 8080:8080 goserver
