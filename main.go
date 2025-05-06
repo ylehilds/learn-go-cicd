@@ -17,7 +17,7 @@ func main() {
 		Handler:      m,
 		Addr:         addr,
 		WriteTimeout: 30 * time.Second,
-		ReadTimeout:  30 * time.Second,}
+		ReadTimeout:  30 * time.Second}
 
 	// this blocks forever, until the server
 	// has an unrecoverable error
