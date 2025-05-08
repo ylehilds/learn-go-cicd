@@ -15,7 +15,7 @@ COPY . .
 RUN go build -o /myapp
 
 
-##############################################################################
+###############################################################################
 # STAGE 2: Copy the GO executable into a minimal image that's able to run Dynatrace
 FROM gcr.io/distroless/base
 
