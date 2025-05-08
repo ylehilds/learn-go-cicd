@@ -22,9 +22,6 @@ RUN go build -o /myapp
 # STAGE 2: Copy the GO executable into a minimal image that's able to run Dynatrace
 FROM gcr.io/distroless/base
 
-# Get the compiled executable from Stage 1
-COPY --from=builder /myapp /myapp
-
 EXPOSE 8080
 
 ENTRYPOINT [ "/myapp" ]
